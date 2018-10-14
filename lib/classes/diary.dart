@@ -1,0 +1,4 @@
+enum Diary {
+  imko,
+  jko
+}
