@@ -9,7 +9,6 @@ import 'package:enis/pages/subjects/GradesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String userData = prefs.getString('user_data');

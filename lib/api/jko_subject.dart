@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:enis/api/imko_subject.dart';
 import 'package:enis/api/subject.dart';
 import 'package:enis/api/utils.dart';
@@ -55,12 +54,11 @@ class JKOSubject extends Subject {
 
   getAssessments(Function(int, List<JKOAssessment>) callback) async {
     Globals.user.updateCookies();
-    Dio dio = await Utils.createDioInstance(Globals.user.schoolURL);
     int index = 0;
     for (String evaluationID in evaluations) {
       List<JKOAssessment> assessments = [];
-      Response evalResponse =
-          await dio.post('/Jce/Diary/GetResultByEvalution', data: {
+      Map<dynamic, dynamic> evalResponse =
+          await Globals.user.session.post('/Jce/Diary/GetResultByEvalution', {
         "journalId": journalID,
         "evalId": evaluationID,
         "page": 1,
@@ -68,12 +66,11 @@ class JKOSubject extends Subject {
         "limit": 25
       });
 
-      evalResponse.data = json.decode(evalResponse.data);
-      if (!evalResponse.data['success']) {
+      if (!evalResponse['success']) {
         throw Exception('Failure while fetching evaluation data');
       }
 
-      for (Map assessment in evalResponse.data['data']) {
+      for (Map assessment in evalResponse['data']) {
         JKOAssessment jkoAssessment = JKOAssessment.fromAPIJson(assessment);
         assessments.add(jkoAssessment);
       }

@@ -23,16 +23,6 @@ class Utils {
     }
   }
 
-  static Future<Dio> createDioInstance(String url) async {
-    Directory tempDir = await getTemporaryDirectory();
-    String tempPath = tempDir.path;
-
-    Dio dio = new Dio();
-    dio.options.baseUrl = url;
-    dio.cookieJar = new PersistCookieJar(tempPath);
-
-    return dio;
-  }
 
   static int getTimestamp() {
     return new DateTime.now().millisecondsSinceEpoch;

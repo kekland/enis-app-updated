@@ -1,9 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:enis/api/subject.dart';
 import 'dart:async';
 
 import 'package:enis/api/utils.dart';
 import 'package:enis/classes/globals.dart';
+import 'package:http/http.dart';
 
 class Term {
   int id;
@@ -61,20 +61,19 @@ class IMKOSubject extends Subject {
 
   Future<List<IMKOGoalGroup>> getGoals() async {
     Globals.user.updateCookies();
-    Dio dio = await Utils.createDioInstance(Globals.user.schoolURL);
 
-    Response goalsResponse = await dio.post('/ImkoDiary/Goals', data: {
+    Map<dynamic, dynamic> goalsResponse = await Globals.user.session.post('/ImkoDiary/Goals', {
       "periodId": termID,
       "subjectId": id,
       "studentId": Globals.user.identifier.studentID
     });
 
-    if (!goalsResponse.data['success']) {
+    if (!goalsResponse['success']) {
       throw Exception(
           'Error occurred while fetching goals for subject ID ${id}');
     }
 
-    List goals = goalsResponse.data['data']['goals'];
+    List goals = goalsResponse['data']['goals'];
 
     int lastGoalGroupIndex = -1;
     List<IMKOGoalGroup> goalsResult = [];
