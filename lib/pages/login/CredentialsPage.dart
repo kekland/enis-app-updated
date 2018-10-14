@@ -25,8 +25,8 @@ class _CredentialsPageState extends State<CredentialsPage> {
 
   initState() {
     super.initState();
-    pinController = new TextEditingController(text: '780409300341');
-    passController = new TextEditingController(text: 'Qqwerty1!');
+    pinController = new TextEditingController(text: '');
+    passController = new TextEditingController(text: '');
     pinController.addListener(() {
       setState(() {
         error = null;

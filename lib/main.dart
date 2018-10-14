@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         statusBarIconBrightness: Brightness.light));
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'enis',
       theme: new ThemeData(
         brightness: Brightness.dark,
         // This is the theme of your application.

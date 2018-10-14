@@ -29,9 +29,18 @@ dependencies:
   date_format:
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.6.1"
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  android: true 
+  ios: "Enis-Icon"
+  image_path: "assets/app.png"
+  image_path_android: "assets/app.png"
+  image_path_ios: "assets/app.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/app-foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

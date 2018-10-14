@@ -1,6 +1,7 @@
 import 'package:enis/api/imko_subject.dart';
 import 'package:enis/classes/globals.dart';
 import 'package:enis/pages/birthdays/BirthdaysPage.dart';
+import 'package:enis/pages/calculator/CalculatorPage.dart';
 import 'package:enis/pages/settings/SettingsPage.dart';
 import 'package:enis/pages/subjects/TermPage.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +104,10 @@ class _GradesPageState extends State<GradesPage>
                           value: 'Birthdays',
                         ),
                         PopupMenuItem(
+                          child: Text('Calculator (WIP)'),
+                          value: 'Calculator',
+                        ),
+                        PopupMenuItem(
                           child: Text('Settings (WIP)'),
                           value: 'Settings',
                         ),
@@ -125,6 +130,15 @@ class _GradesPageState extends State<GradesPage>
                         MaterialPageRoute(
                           builder: (BuildContext context) {
                             return BirthdaysPage();
+                          },
+                        ),
+                      );
+                    } else if (action == 'Calculator') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return CalculatorPage();
                           },
                         ),
                       );
