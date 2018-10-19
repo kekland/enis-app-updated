@@ -21,28 +21,33 @@ class IMKOSubject extends Subject {
   int id;
   int termID;
   String grade;
+  String dateChanged;
 
-  IMKOSubject(
-      {this.name,
-      this.formative,
-      this.summative,
-      this.id,
-      this.grade,
-      this.termID});
+  IMKOSubject({
+    this.name,
+    this.formative,
+    this.summative,
+    this.id,
+    this.grade,
+    this.termID,
+    this.dateChanged,
+  });
   factory IMKOSubject.fromAPIJson(Map json, int termID) {
     return IMKOSubject(
-        name: json['Name'],
-        formative: Assessment(
-          current: json['ApproveCnt'],
-          maximum: json['Cnt'],
-        ),
-        summative: Assessment(
-          current: (json['ApproveISA'] as double).toInt(),
-          maximum: (json['MaxISA'] as double).toInt(),
-        ),
-        id: json['Id'],
-        grade: json['Period'],
-        termID: termID);
+      name: json['Name'],
+      dateChanged: json['LastChanged'],
+      formative: Assessment(
+        current: json['ApproveCnt'],
+        maximum: json['Cnt'],
+      ),
+      summative: Assessment(
+        current: (json['ApproveISA'] as double).toInt(),
+        maximum: (json['MaxISA'] as double).toInt(),
+      ),
+      id: json['Id'],
+      grade: json['Period'],
+      termID: termID,
+    );
   }
   String getGrade() {
     double points =
@@ -62,7 +67,8 @@ class IMKOSubject extends Subject {
   Future<List<IMKOGoalGroup>> getGoals() async {
     Globals.user.updateCookies();
 
-    Map<dynamic, dynamic> goalsResponse = await Globals.user.session.post('/ImkoDiary/Goals', {
+    Map<dynamic, dynamic> goalsResponse =
+        await Globals.user.session.post('/ImkoDiary/Goals', {
       "periodId": termID,
       "subjectId": id,
       "studentId": Globals.user.identifier.studentID
@@ -129,21 +135,16 @@ class IMKOGoal {
   }
 
   String getStatusString() {
-    if(status == GoalStatus.Achieved) {
+    if (status == GoalStatus.Achieved) {
       return 'Achieved';
-    }
-    else if(status == GoalStatus.NotAssessed) {
+    } else if (status == GoalStatus.NotAssessed) {
       return 'N/A';
     }
     return 'Working Towards';
   }
 }
 
-enum GoalStatus {
-  Achieved,
-  WorkingTowards,
-  NotAssessed
-}
+enum GoalStatus { Achieved, WorkingTowards, NotAssessed }
 
 class Assessment {
   int current;

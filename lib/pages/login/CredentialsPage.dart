@@ -60,21 +60,22 @@ class _CredentialsPageState extends State<CredentialsPage> {
         url: School.schools[widget.school],
         diary: widget.diary,
       );
-      await data.login(saveToPrefs: true);
+      await data.login(saveToPrefs: true, captcha: captcha);
       Globals.user = data;
       loadingIndicator.remove();
       Navigator.pushReplacementNamed(context, 'main');
     } catch (e) {
       loadingIndicator.remove();
+      print(e.toString());
       if (e.runtimeType == CaptchaException) {
         showDialog(
-          builder: (BuildContext context) {
+          builder: (BuildContext ctx) {
             return Dialog(
               child: CaptchaDialog(
                 captcha: e.captcha,
-                onSubmit: (captcha) {
+                onSubmit: (submittedCaptcha) {
                   Navigator.pop(context);
-                  login(context, captcha);
+                  login(context, submittedCaptcha);
                 },
               ),
             );

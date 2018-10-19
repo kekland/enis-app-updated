@@ -11,11 +11,12 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String userData = prefs.getString('user_data');
+  Globals.prefs = prefs;
+  String userData = Globals.prefs.getString('user_data');
   if (userData != null) {
-    print(prefs.getString('user_data'));
+    print(Globals.prefs.getString('user_data'));
     Globals.user =
-        new UserData.fromJSON(json.decode(prefs.getString('user_data')));
+        new UserData.fromJSON(json.decode(Globals.prefs.getString('user_data')));
   }
   runApp(new MyApp());
 } 

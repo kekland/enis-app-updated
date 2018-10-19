@@ -13,12 +13,7 @@ class CaptchaDialog extends StatefulWidget {
 }
 
 class _CaptchaDialogState extends State<CaptchaDialog> {
-  TextEditingController controller;
-  @override
-  void initState() {
-    controller = new TextEditingController();
-    super.initState();
-  }
+  String value;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +32,9 @@ class _CaptchaDialogState extends State<CaptchaDialog> {
               width: double.infinity, fit: BoxFit.cover),
           SizedBox(height: 8.0),
           TextField(
-            controller: controller,
+            onChanged: (text) {
+              value = text;
+            },
             decoration: InputDecoration(hintText: 'Captcha'),
           ),
           Align(
@@ -45,17 +42,13 @@ class _CaptchaDialogState extends State<CaptchaDialog> {
             child: FlatButton.icon(
               label: Text('Submit'),
               icon: Icon(Icons.chevron_right),
-              onPressed: () => widget.onSubmit(controller.text),
+              onPressed: () {
+                widget.onSubmit(value);
+              },
             ),
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }

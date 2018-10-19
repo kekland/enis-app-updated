@@ -29,6 +29,7 @@ class IMKOGoalWidget extends StatelessWidget {
       columnChildren.add(SizedBox(height: 8.0));
       columnChildren.add(
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Colors.amber,

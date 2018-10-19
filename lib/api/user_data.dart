@@ -7,6 +7,7 @@ import 'package:enis/api/jko_subject.dart';
 import 'package:enis/api/subject.dart';
 import 'package:enis/api/utils.dart';
 import 'package:enis/classes/diary.dart';
+import 'package:enis/classes/globals.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -29,9 +30,10 @@ class UserBirthday {
     String year = birthday.year.toString();
     return day + '.' + month + '.' + year;
   }
+
   bool isToday() {
     DateTime now = DateTime.now();
-    if(birthday.day == now.day && birthday.month == now.month) {
+    if (birthday.day == now.day && birthday.month == now.month) {
       return true;
     }
     return false;
@@ -45,6 +47,12 @@ class Session {
   configureDioFirstTime() {
     Dio dio = new Dio();
     dio.cookieJar = new CookieJar();
+    String authority = base.substring(base.indexOf('/', 6) + 1);
+    authority = authority.substring(0, authority.indexOf('/'));
+    dio.cookieJar.saveFromResponse(Uri.http(authority, ''), [
+      Cookie('Locale', 'en-US'),
+      Cookie('Culture', 'en-US'),
+    ]);
     http = dio;
   }
 
@@ -163,16 +171,11 @@ class UserData {
   }
 
   login({bool saveToPrefs, String captcha}) async {
-    Map loginData = {
-      'txtUsername': pin,
-      'txtPassword': password,
-    };
-    if (captcha != null) {
-      loginData['captchaInput'] = captcha;
-    }
-    Map<dynamic, dynamic> loginResponse =
-        await session.post('/Account/Login', loginData);
+    Map<dynamic, dynamic> loginResponse = await session.post('/Account/Login',
+        {'txtUsername': pin, 'txtPassword': password, 'captchaInput': captcha});
 
+    print('$pin, $password, $captcha');
+    print(json.encode(loginResponse));
     if (!loginResponse['success']) {
       if (loginResponse['captchaImg'] != null &&
           loginResponse['captchaImg'] != '') {
@@ -380,7 +383,7 @@ class UserData {
       'limit': 10000,
       'role': 'SchoolDirector'
     });
-    
+
     if (data['total'] == null) {
       throw 'Error while fetching birthdays';
     }
@@ -392,13 +395,11 @@ class UserData {
   }
 
   saveToPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user_data', json.encode(this.toJSON()));
+    Globals.prefs.setString('user_data', json.encode(this.toJSON()));
     print(json.encode(this.toJSON()));
   }
 
   logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user_data', null);
+    Globals.prefs.setString('user_data', null);
   }
 }

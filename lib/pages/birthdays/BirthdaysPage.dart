@@ -196,20 +196,20 @@ class _BirthdaysPageState extends State<BirthdaysPage> {
               PopupMenuButton(
                 itemBuilder: (context) => [
                       PopupMenuItem(
-                        child: Text('Сортировать'),
+                        child: Text('Sort'),
                         enabled: false,
                       ),
                       PopupMenuItem(
-                        child: Text('По имени'),
+                        child: Text('By name'),
                         value: 'name',
                         enabled: !loading,
                       ),
                       PopupMenuItem(
-                        child: Text('По дню рожения'),
+                        child: Text('By birthdate'),
                         value: 'birthday',
                       ),
                       PopupMenuItem(
-                        child: Text('По возрасту'),
+                        child: Text('By age'),
                         value: 'age',
                       ),
                     ],
